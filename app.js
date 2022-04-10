@@ -6,6 +6,7 @@ const RedisStore = require("connect-redis")(session);
 const redisClient = require("./utils/redisClient");
 const csrf = require("csurf");
 const flash = require("connect-flash");
+const io = require("./sockets");
 
 const router = require("./routes");
 const config = require("./config");
@@ -35,11 +36,18 @@ app.use(csrf({}));
 app.use(csrfTokenizer);
 app.use(flash());
 
+app.use((req, res, next) => {
+  req.session.user = "Kareem";
+  next();
+});
+
 app.use(router);
 
 app.use(errorHandler);
 app.use("*", notFound);
 
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log("App server running on port 3000");
 });
+
+io.startIO(server);

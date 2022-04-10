@@ -4,6 +4,7 @@
         <title><%= title %></title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     </head>
     <body>
         <div class="container">
@@ -14,5 +15,9 @@
                 <%- body %>
             </div>
         </div>
+        <script>
+            const socket = io("http://localhost:3000/packtchat");
+            socket.on('message', function(d){console.log(d);});
+        </script>
     </body>
 </html>

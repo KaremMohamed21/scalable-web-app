@@ -4,7 +4,6 @@ const router = Router();
 
 router.get("/", (req, res) => {
   res.cookie("indexCookie", "cookie");
-  console.log(req.signedCookies);
   res.render("index", { title: "Index" });
 });
 router.get("/login", (req, res) => {
