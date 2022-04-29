@@ -3,7 +3,8 @@ const passport = require("passport"),
   google = require("passport-google-oauth").OAuth2Strategy,
   local = require("passport-local").Strategy,
   User = require("./users"),
-  config = require("../config");
+  config = require("../config"),
+  logger = require("../middlewares/logger");
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -44,6 +45,10 @@ passport.use(
       if (profile && profile.password === password) {
         done(null, profile);
       } else {
+        logger.error({
+          message: "Wrong Username or Password",
+          username: username,
+        });
         done(null, false, { message: "Wrong Username or Password" });
       }
     });
